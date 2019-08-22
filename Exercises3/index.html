@@ -77,7 +77,7 @@
             var q2 = Math.floor(Math.random() * (10000 - 1)) + 1;
 
             var answer =  [
-                (q1*q2)/100,
+                ((q2/100)*q1)+q1),
                 ((Math.floor(Math.random() * (10000 - 1)) + 1 === q1 + q2) ? Math.floor(Math.random() * (10000 - 1)) + 1 : Math.floor(Math.random() * (10000 - 1)) + 1).toFixed(2),
                 (((Math.random() * (10000 - 1)) + 1 === q1 + q2) ? (Math.random() * (10000 - 1)) + 1 : (Math.random() * (10000 - 1)) + 1).toFixed(2),
                 (((Math.random() * (10000 - 1)) + 1 === q1 + q2) ? (Math.random() * (10000 - 1)) + 1 : (Math.random() * (10000 - 1)) + 1).toFixed(2),
