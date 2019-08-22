@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Quiz</title>
+    <style>
+.Aligner {
+    background: lightcyan;
+    display: flex;
+    align-items: center;
+    min-height: 42vh;
+    justify-content: space-around;
+    flex-direction: column;
+    min-width: 100px;
+}
+#options {
+    display: flex;
+    width: 50%;
+    flex-wrap: wrap;
+}
+
+.Aligner-item {
+}
+
+.Aligner-item--top {
+  align-self: flex-start;
+}
+
+.Aligner-item--bottom {
+  align-self: flex-end;
+}
+
+.Aligner-item--fixed {
+  flex: none;
+  max-width: 50%;
+}
+.question {
+    text-align: right;
+    width: 100%;
+}
+
+.answer {
+    width: 49%;
+    display: flex;
+    justify-content: center;
+    padding: 1px;
+    margin: 3px;
+    background: white;
+    border-radius: 5px;
+    height: 3vh;
+    align-items: center;
+}
+    </style>
+</head>
+<body>
+        <main class="Aligner">
+           
+                <section id="instruction">Completa correctamente la oración arrastrando al espacio en blanco la cantidad que corresponda.</section>
+                <section id="problem" class="Aligner-item ">Aumentar en un  <span  class="question" id="q1"></span> 
+                    la cantidad de <span class="question" id="q2"></span></section> resulta en:</section>
+                <section id="options" class="Aligner-item ">  
+                    <div onclick="sendAnswer(this.innerHTML)"  class="answer" id="o1"></div>
+                    <div onclick="sendAnswer(this.innerHTML)" class="answer"  id="o2"></div>
+                    <div onclick="sendAnswer(this.innerHTML)" class="answer"  id="o3"></div>
+                    <div  onclick="sendAnswer(this.innerHTML)" class="answer" id="o4"></div>
+                </section>
+            </main>
+    
+              <pre id="result" class="Aligner-item ">  </pre>
+
+              
+    <script >
+        window.onload = genQuestion();
+        function genQuestion(){
+            var q1 = Math.floor(Math.random() * (100 - 1)) + 1;
+            var q2 = Math.floor(Math.random() * (10000 - 1)) + 1;
+
+            var answer =  [
+                (q1*q2)/100,
+                ((Math.floor(Math.random() * (10000 - 1)) + 1 === q1 + q2) ? Math.floor(Math.random() * (10000 - 1)) + 1 : Math.floor(Math.random() * (10000 - 1)) + 1).toFixed(2),
+                (((Math.random() * (10000 - 1)) + 1 === q1 + q2) ? (Math.random() * (10000 - 1)) + 1 : (Math.random() * (10000 - 1)) + 1).toFixed(2),
+                (((Math.random() * (10000 - 1)) + 1 === q1 + q2) ? (Math.random() * (10000 - 1)) + 1 : (Math.random() * (10000 - 1)) + 1).toFixed(2),
+                (((Math.random() * (10000 - 1)) + 1 === q1 + q2) ? (Math.random() * (10000 - 1)) + 1 : (Math.random() * (10000 - 1)) + 1).toFixed(2),
+            ];
+            answer.sort(()=>Math.random()-0.5) ; 
+
+            document.getElementById("q1").innerHTML = q1 + "%";
+            document.getElementById("q2").innerHTML = q2;
+            document.getElementById("o1").innerHTML = answer[0];
+            document.getElementById("o2").innerHTML = answer[1];
+            document.getElementById("o3").innerHTML = answer[2];
+            document.getElementById("o4").innerHTML = answer[3];
+        }
+        function sendAnswer(value){
+            var q1 = parseInt(document.getElementById("q1").innerHTML);
+            var q2 = parseInt(document.getElementById("q2").innerHTML);
+            var options = [document.getElementsByClassName("answer")[0].innerHTML, document.getElementsByClassName("answer")[1].innerHTML, document.getElementsByClassName("answer")[2].innerHTML,document.getElementsByClassName("answer")[3].innerHTML];
+            var answer = q1*q2/100;
+            var ouput = new Array();
+
+            var ouput = { instruction: document.getElementById("instruction").innerHTML, problem: [  q1,  q2 ], options: options, result: (answer == value) ? 1 : 0 };
+            var outputJson = JSON.stringify(ouput ,null, 4); 
+            console.log(outputJson);
+            document.getElementById("result").innerHTML = outputJson; 
+        }
+            
+    </script>
+</body>
+</html>
