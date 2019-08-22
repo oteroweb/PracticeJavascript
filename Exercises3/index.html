@@ -77,7 +77,7 @@
             var q2 = Math.floor(Math.random() * (10000 - 1)) + 1;
 
             var answer =  [
-                ((q2/100)*q1)+q1),
+                ((q1/100)*q2)+q2,
                 ((Math.floor(Math.random() * (10000 - 1)) + 1 === q1 + q2) ? Math.floor(Math.random() * (10000 - 1)) + 1 : Math.floor(Math.random() * (10000 - 1)) + 1).toFixed(2),
                 (((Math.random() * (10000 - 1)) + 1 === q1 + q2) ? (Math.random() * (10000 - 1)) + 1 : (Math.random() * (10000 - 1)) + 1).toFixed(2),
                 (((Math.random() * (10000 - 1)) + 1 === q1 + q2) ? (Math.random() * (10000 - 1)) + 1 : (Math.random() * (10000 - 1)) + 1).toFixed(2),
@@ -96,7 +96,7 @@
             var q1 = parseInt(document.getElementById("q1").innerHTML);
             var q2 = parseInt(document.getElementById("q2").innerHTML);
             var options = [document.getElementsByClassName("answer")[0].innerHTML, document.getElementsByClassName("answer")[1].innerHTML, document.getElementsByClassName("answer")[2].innerHTML,document.getElementsByClassName("answer")[3].innerHTML];
-            var answer = q1*q2/100;
+            var answer = ((q1/100)*q2)+q2;
             var ouput = new Array();
 
             var ouput = { instruction: document.getElementById("instruction").innerHTML, problem: [  q1,  q2 ], options: options, result: (answer == value) ? 1 : 0 };
