@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Quiz</title>
+    <style>
+.Aligner {
+    background: lightcyan;
+    display: flex;
+    align-items: center;
+    min-height: 42vh;
+    justify-content: space-around;
+    flex-direction: column;
+    min-width: 100px;
+}
+#options {
+    display: flex;
+    width: 50%;
+    flex-wrap: wrap;
+}
+
+.Aligner-item {
+}
+
+.Aligner-item--top {
+  align-self: flex-start;
+}
+
+.Aligner-item--bottom {
+  align-self: flex-end;
+}
+
+.Aligner-item--fixed {
+  flex: none;
+  max-width: 50%;
+}
+.question {
+    text-align: right;
+    width: 100%;
+}
+
+.answer {
+    width: 49%;
+    display: flex;
+    justify-content: center;
+    padding: 1px;
+    margin: 3px;
+    background: white;
+    border-radius: 5px;
+    height: 3vh;
+    align-items: center;
+}
+    </style>
+</head>
+<body>
+        <main class="Aligner">
+           
+                <section id="instruction">Escribe el número siguiente presionando los botones en el orden correcto.</section>
+                <section id="problem" class="Aligner-item "><span  class="question" id="q1"></span> </section>
+                <section id="options" class="Aligner-item ">  
+                    <div onclick="sendAnswer(this.innerHTML)"  class="answer" id="o1"></div>
+                    <div onclick="sendAnswer(this.innerHTML)" class="answer"  id="o2"></div>
+                    <div onclick="sendAnswer(this.innerHTML)" class="answer"  id="o3"></div>
+                    <div  onclick="sendAnswer(this.innerHTML)" class="answer" id="o4"></div>
+                    <div  onclick="sendAnswer(this.innerHTML)" class="answer" id="o5"></div>
+                    <div  onclick="sendAnswer(this.innerHTML)" class="answer" id="o6"></div>
+                </section>
+            </main>
+    
+              <pre id="result" class="Aligner-item ">  </pre>
+              <input id="number" class="Aligner-item ">  </input>
+              <pre id="words" class="Aligner-item ">  </pre>
+
+    <script src="NumeroALetras.js"></script>
+              
+    <script >
+        
+        window.onload = genQuestion();
+        function genQuestion(){
+            var q1 = Math.floor(Math.random() * (999999 - 12345)) + 1;
+            var q2 = Math.floor(Math.random() * (999999 - 12345)) + 1;
+
+            var correctQ1 = NumeroALetras(q1);
+            var correctSplit = correctQ1.split(' ');
+            var correctArray = chunkArray(correctSplit, 3);
+            var wrongQ2 = NumeroALetras(q2);
+            var wrongSplit = wrongQ2.split(' ');
+            var wrongArray = chunkArray(correctArray, 3);
+            // console.log(correctQ1);
+            console.log(correctArray);
+            // console.log(wrongQ2);
+            console.log(wrongArray);
+
+            var answer =  [
+                correctArray, 
+                wrongArray
+                // NumeroALetras(2),
+            ];
+            console.log(answer);
+            // answer.sort(()=>Math.random()-0.5) ; 
+
+            document.getElementById("q1").innerHTML = q1;
+            document.getElementById("o1").innerHTML = answer[0];
+            // document.getElementById("o2").innerHTML = NumeroALetras(answer[1]);
+            // document.getElementById("o3").innerHTML = NumeroALetras(answer[2]);
+            // document.getElementById("o4").innerHTML = NumeroALetras(answer[3]);
+            // document.getElementById("o5").innerHTML = NumeroALetras(answer[4]);
+            // document.getElementById("o6").innerHTML = NumeroALetras(answer[5]);
+        }
+        function sendAnswer(value){
+            var q1 = parseInt(document.getElementById("q1").innerHTML);
+            var q2 = parseInt(document.getElementById("q2").innerHTML);
+            var options = [document.getElementsByClassName("answer")[0].innerHTML, document.getElementsByClassName("answer")[1].innerHTML, document.getElementsByClassName("answer")[2].innerHTML,document.getElementsByClassName("answer")[3].innerHTML];
+            var answer = q1*q2/100;
+            var ouput = new Array();
+
+            var ouput = { instruction: document.getElementById("instruction").innerHTML, problem: [  q1,  q2 ], options: options, result: (answer == value) ? 1 : 0 };
+            var outputJson = JSON.stringify(ouput ,null, 4); 
+            console.log(outputJson);
+            document.getElementById("result").innerHTML = outputJson; 
+        }
+            
+        
+
+
+/**
+ * Returns an array with arrays of the given size.
+ *
+ * @param myArray {Array} array to split
+ * @param chunk_size {Integer} Size of every group
+ */
+ function chunkArray(myArray, chunk_size){
+    var index = 0;
+    var arrayLength = myArray.length;
+    var tempArray = [];
+    
+    for (index = 0; index < arrayLength; index += chunk_size) {
+        myChunk = myArray.slice(index, index+chunk_size);
+        console.log(myChunk);
+        // Do something if you want with the group
+        tempArray.push(myChunk);
+    }
+
+    return tempArray;
+}
+function dividirCadena(cadenaADividir,separador) {
+   var arrayDeCadenas = cadenaADividir.split(separador);
+   document.write('<p>La cadena original es: "' + cadenaADividir + '"');
+   document.write('<br>El separador es: "' + separador + '"');
+   document.write("<br>El array tiene " + arrayDeCadenas.length + " elementos: ");
+
+   for (var i=0; i < arrayDeCadenas.length; i++) {
+      document.write(arrayDeCadenas[i] + " / ");
+   }
+}
+    </script>
+</body>
+</html>

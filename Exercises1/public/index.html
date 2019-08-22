@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ejercicio 1 </title>
+</head>
+<body>
+    <script>
+
+function loadXMLDoc(myurl, cb){
+   var xmlhttp;
+   if (window.XMLHttpRequest){
+       xmlhttp=new XMLHttpRequest();}
+   else{
+       xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");}
+    xmlhttp.onreadystatechange=function(){
+        if (xmlhttp.readyState==4 && xmlhttp.status==200){
+            if( typeof cb === 'function' )
+                cb(xmlhttp.responseText);
+        }
+    }
+   xmlhttp.open("GET",myurl,true);
+   xmlhttp.send();
+
+}
+
+loadXMLDoc('http://127.0.0.1:8080/Ejercicio1.csv', function(responseText) {
+   var names = CSVToArray( responseText);
+   var orderArray = OrderArrays(names);
+});
+
+ function CSVToArray (CSV_string, delimiter) {
+   delimiter = ","; 
+   var pattern = new RegExp( 
+     ( "(\\" + delimiter + "|\\r?\\n|\\r|^)" + "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" + "([^\"\\" + delimiter + "\\r\\n]*))"
+     ), "gi"   );
+   var rows = [[]];
+   while (matches = pattern.exec( CSV_string )) {
+       var matched_delimiter = matches[1]; 
+       if (matched_delimiter.length && matched_delimiter !== delimiter) { rows.push( [] ); }
+       var matched_value;
+       if (matches[2]) { matched_value = matches[2].replace(new RegExp( "\"\"", "g" ), "\"" );
+       } else { matched_value = matches[3]; }
+       rows[rows.length - 1].push(matched_value);
+   }
+   return rows;
+}
+
+
+function OrderArrays(names) {
+    var ordered = names.sort(compareColumn);
+    let csvContent = "data:text/csv;charset=utf-8," 
+    + ordered.map(e => e.join(",")).join("\n");
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "my_data.csv");
+    document.body.appendChild(link); // Required for FF
+    link.click();
+    
+    function compareColumn(a, b) {
+        var ArrayIDa = a[1].split('-');
+        var ArrayIDb = b[1].split('-');
+        if (ArrayIDa[2] === ArrayIDb[2]) { return ArrayIDb[1] - ArrayIDa[1] || ArrayIDb[0] - ArrayIDa[0]; }
+        else {  return ArrayIDb[2] - ArrayIDa[2] || ArrayIDb[1] - ArrayIDa[1] || ArrayIDb[0] - ArrayIDa[0];
+            }
+    }
+}
+    </script>
+    
+</body>
+</html>
