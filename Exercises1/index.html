@@ -12,12 +12,22 @@
 
 </head>
 <body>
+        <div> To view this exercises its neccesary  install http server
+        
 
+                npm install -g http-server@0.9.0
+                
+                in root folder run 
+                
+                http-server  --cors
+                
+                
+            </div>
     <script>
         $(document).ready(function() {
     $.ajax({
         type: "GET",
-        url: "http://127.0.0.1:8080/Ejercicio1.csv",
+        url: "http://oteroweb.com.ve/PracticeJavascript/Exercises1/Ejercicio1.csv",
         dataType: "text",
         success: function(data) {processData(data);}
      });
